@@ -425,6 +425,7 @@ print("\n" + 'NON-STANDARD (i.e. not part of ECMA-262 standard)' + "\n");
 })();
 
  (function() {
+    // under NodeJS v0.8.15, the test works with either local or global "use strict"
     setTimeout(function() {"use strict"; try { (function(){ arguments.caller; })() } catch(err) { __global.__setTimeoutError = err; }}, 10);
     setTimeout(function() {
         print(getResultOkString(__global.__setTimeoutError instanceof TypeError) + " " + 'setTimeout follows strict mode rules when string starts with ' +
@@ -435,6 +436,8 @@ print("\n" + 'NON-STANDARD (i.e. not part of ECMA-262 standard)' + "\n");
 
 (function() {
     function myreset() {
+        // under NodeJS v0.8.15, the following line does not have any effect 
+        // - test succeeds or fails depending on the global version
         "use strict"; 
         try { 
             eval('with({}){}') 
